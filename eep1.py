@@ -32,14 +32,15 @@ def bit_8_to_11(instruction_assembly):
             eight_to_eleven = converters.dec_to_bin(instruction_assembly[4]) + "0"
         else:
             eight_to_eleven = converters.dec_to_bin(instruction_assembly[4]) + "1"
-        eight_to_eleven = converters.bin_to_hex(eight_to_eleven)
     else:
         index = jumps.index(instruction_assembly[0:3])
         eight_to_eleven = str(index)
-        eight_to_eleven = converters.dec_to_hex(eight_to_eleven)
+        eight_to_eleven = converters.dec_to_bin(eight_to_eleven)
     while len(eight_to_eleven) < 4:
         eight_to_eleven = "0" + eight_to_eleven
     eight_to_eleven = converters.bin_to_hex(eight_to_eleven)
+    if instruction_assembly[0:3] == "jmp":
+        return "0"
     return eight_to_eleven
 
 
@@ -51,6 +52,8 @@ def bit_0_to_7(instruction_assembly):
         else:
             zero_to_seven = converters.dec_to_bin(instruction_assembly[6]) + converters.imms5_to_unsigned(
                 instruction_assembly[7:10])
+    elif bit_12_to_15(instruction_assembly) == "c":
+        zero_to_seven = converters.dec_to_bin(instruction_assembly[3:6])
     else:
         zero_to_seven = converters.dec_to_bin(instruction_assembly[5:8])
     while len(zero_to_seven) < 8:
